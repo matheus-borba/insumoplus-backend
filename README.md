@@ -1,84 +1,161 @@
-# insumoplus-backend
+# 🧪 InsumoPlus Backend
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Backend da aplicação **InsumoPlus**, voltada para gestão de insumos e integração com sistemas externos como o Pipedrive. Construído com **Quarkus**, com arquitetura organizada em camadas para facilitar manutenção, testes e escalabilidade.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+---
 
-## Running the application in dev mode
+## 🧰 Tecnologias Utilizadas
 
-You can run your application in dev mode that enables live coding using:
+* Java 21
+* Quarkus
+* Maven
+* REST Client (MicroProfile)
+* MongoDB Panache
+* Docker / Docker Compose
+* Lombok
 
-```shell script
+---
+
+## 📁 Estrutura do Projeto
+
+```
+insumoplus-backend
+├── src/
+│   ├── main/
+│   │   ├── java/br/edu/engsoft/
+│   │   │   ├── client/         # Integrações externas (Pipedrive)
+│   │   │   ├── controller/     # Endpoints REST
+│   │   │   ├── dto/            # Data Transfer Objects
+│   │   │   ├── model/          # Entidades (MongoDB Collections)
+│   │   │   ├── repository/     # Acesso a dados
+│   │   │   ├── scheduler/      # Configuração de Timers internos
+│   │   │   └── service/        # Lógica de negócio
+│   ├── resources/              # Configurações (application.properties, etc)
+│   └── docker/                 # Imagens Docker para diferentes modos
+├── docker-compose.yml          # Orquestração de serviços
+└── pom.xml                     # Dependências e plugins Maven
+```
+
+---
+
+## 🚀 Como Executar Localmente
+
+### Pré-requisitos
+
+* Java 21
+* Maven 3.8+
+* Docker (opcional, mas recomendado)
+
+### Instalação
+
+```bash
+./mvnw clean install
+```
+
+### Usando Docker Compose
+
+```bash
+docker-compose up --build
+```
+
+### Rodando em modo de desenvolvimento
+
+```bash
 ./mvnw quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+Acesse o Dev UI:
+[http://localhost:8080/q/dev/](http://localhost:8080/q/dev/)
 
-## Packaging and running the application
+---
 
-The application can be packaged using:
+## 📦 Build do Projeto
 
-```shell script
-./mvnw package
+```bash
+./mvnw clean package
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+Gera o JAR em:
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+```
+target/quarkus-app/quarkus-run.jar
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+Rodar:
 
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
+```bash
+java -jar target/quarkus-app/quarkus-run.jar
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+---
 
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
+## 🔁 Integrações Externas
+
+### 🔗 Pipedrive
+
+A aplicação se conecta à API do Pipedrive para:
+
+* Buscar organizações
+* Sincronizar informações de leads
+
+Configuração esperada via `.env` ou `application.properties`:
+
+```properties
+pipedrive.api.token=SEU_TOKEN_AQUI
+pipedrive.api.url=SEU_ENDERECO_PIPEDRIVE
 ```
 
-You can then execute your native executable with: `./target/insumoplus-backend-1.0.0-SNAPSHOT-runner`
+---
 
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
+## 📌 Endpoints REST
 
-## Related Guides
+Exemplos com base nos controllers detectados:
 
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- REST JSON-B ([guide](https://quarkus.io/guides/rest#json-serialisation)): JSON-B serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- MongoDB with Panache ([guide](https://quarkus.io/guides/mongodb-panache)): Simplify your persistence code for MongoDB via the active record or the repository pattern
-- Hibernate ORM with Panache ([guide](https://quarkus.io/guides/hibernate-orm-panache)): Simplify your persistence code for Hibernate ORM via the active record or the repository pattern
+| Recurso        | Caminho          | Descrição                             |
+| -------------- | ---------------- | ------------------------------------- |
+| `User`         | `/users`         | Gerenciamento de usuários             |
+| `Product`      | `/products`      | Cadastro e listagem de produtos       |
+| `Organization` | `/organizations` | Integração com organizações Pipedrive |
 
-## Provided Code
+### 🏢 OrganizationController
 
-### Hibernate ORM
+| Método | Caminho                                 | Descrição                            |
+|--------|------------------------------------------|----------------------------------------|
+| `GET`  | `/api/organizations`                    | Lista todas as organizações           |
+| `GET`  | `/api/organizations/{id}`               | Busca organização por ID              |
+| `GET`  | `/api/organizations/search?name=...`    | Busca por nome via query param        |
+| `GET`  | `/api/organizations/owner/{ownerId}`    | Lista por ID do responsável           |
 
-Create your first JPA entity
+### 📦 ProductController
 
-[Related guide section...](https://quarkus.io/guides/hibernate-orm)
+| Método | Caminho                              | Descrição                             |
+|--------|---------------------------------------|-----------------------------------------|
+| `GET`  | `/api/products`                      | Lista todos os produtos                |
+| `GET`  | `/api/products/{id}`                 | Busca produto por ID                   |
+| `GET`  | `/api/products/search?name=...`      | Busca por nome via query param         |
+| `GET`  | `/api/products/owner/{ownerId}`      | Lista por ID do responsável            |
 
-[Related Hibernate with Panache section...](https://quarkus.io/guides/hibernate-orm-panache)
+### 👤 UserController
 
+| Método | Caminho                            | Descrição                                |
+|--------|-------------------------------------|-------------------------------------------|
+| `GET`  | `/api/users`                       | Lista todos os usuários                   |
+| `GET`  | `/api/users/{id}`                  | Busca usuário por ID                      |
+| `GET`  | `/api/users/search?email=...`      | Busca por e-mail via query param          |
 
-### REST
+---
 
-Easily start your REST Web Services
+## 👨‍💻 Contribuindo
 
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+1. Fork este repositório
+2. Crie uma branch: `git checkout -b minha-feature`
+3. Commit suas alterações: `git commit -m 'feat: minha nova feature'`
+4. Push: `git push origin minha-feature`
+5. Crie um Pull Request
 
+---
 
+## 🧠 Referências
 
-asdf install
-
-./mvnw clean install
+* [Quarkus.io](https://quarkus.io/)
+* [Pipedrive API Docs](https://developers.pipedrive.com/)
