@@ -61,4 +61,25 @@ public class ProductRepositoryImpl implements ProductRepository, PanacheMongoRep
     public List<Product> listByOwnerId(Long id) {
         return find("ownerId", id).list();
     }
+    
+    @Override
+    public List<Product> findByCategory(Integer category) {
+        return find("category", category).list();
+    }
+
+    @Override
+    public List<Product> findActiveProducts() {
+        return find("isDeleted", false).list();
+    }
+
+    @Override
+    public List<Product> findByPriceRange(Double minPrice, Double maxPrice) {
+        // Assumindo que você tenha um campo 'basePrice' ou similar
+        return find("basePrice >= ?1 and basePrice <= ?2", minPrice, maxPrice).list();
+    }
+
+    @Override
+    public List<Product> findAllPaged(int page, int size) {
+        return findAll().page(page, size).list();
+    }
 }
