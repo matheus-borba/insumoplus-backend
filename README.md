@@ -156,3 +156,11 @@ pipedrive.api.url=SEU_ENDERECO_PIPEDRIVE
 
 * [Quarkus.io](https://quarkus.io/)
 * [Pipedrive API Docs](https://developers.pipedrive.com/)
+* [Java 21](https://openjdk.org/projects/jdk/21/)
+* [Jakarta REST (JAX-RS)](https://jakarta.ee/specifications/restful-ws)
+* [MicroProfile REST Client](https://microprofile.io/project/eclipse/microprofile-restclient)
+* [Lombok](https://projectlombok.org)
+* [MongoDB Panache](https://quarkus.io/guides/mongodb-panache)
+* [Docker](https://docs.docker.com)
+* [Docker Compose](https://docs.docker.com/compose/)
+* [Pipedrive API](https://developers.pipedrive.com/docs/api/v1)
