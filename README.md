@@ -96,9 +96,8 @@ java -jar target/quarkus-app/quarkus-run.jar
 A aplicação se conecta à API do Pipedrive para:
 
 * Buscar organizações
-* Sincronizar informações de leads
-
-Configuração esperada via `.env` ou `application.properties`:
+* Buscar produtos
+* Buscar usuários
 
 ```properties
 pipedrive.api.token=SEU_TOKEN_AQUI
@@ -108,8 +107,6 @@ pipedrive.api.url=SEU_ENDERECO_PIPEDRIVE
 ---
 
 ## 📌 Endpoints REST
-
-Exemplos com base nos controllers detectados:
 
 | Recurso        | Caminho          | Descrição                             |
 | -------------- | ---------------- | ------------------------------------- |
