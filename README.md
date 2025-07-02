@@ -1,4 +1,4 @@
-# 🧪 InsumoPlus Backend
+## 🧪 InsumoPlus Backend
 
 Backend da aplicação **InsumoPlus**, voltada para gestão de insumos e integração com sistemas externos como o Pipedrive. Construído com **Quarkus**, com arquitetura organizada em camadas para facilitar manutenção, testes e escalabilidade.
 
